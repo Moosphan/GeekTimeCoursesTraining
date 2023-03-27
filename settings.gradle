@@ -14,4 +14,6 @@ dependencyResolutionManagement {
 }
 rootProject.name = "GeekTimeTraining"
 include ':app'
+include ':breakpadLib'
 include ':bitmapAnalyzer'
+include ':processTracker'

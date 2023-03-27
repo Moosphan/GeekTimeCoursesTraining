@@ -1,22 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".MainActivity">
+
+    <Button
+        android:id="@+id/btnCrash"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:gravity="center"
+        android:layout_margin="12dp"
+        android:text="Make Native Crash"
+        android:textAllCaps="false"
+        />
 
     <Button
         android:id="@+id/hprof"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="52dp"
         android:gravity="center"
-        android:layout_margin="20dp"
-        android:text="Pull hprof file"
+        android:layout_margin="12dp"
+        android:text="Pull hprof file of bitmap"
         android:textAllCaps="false"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <Button
+        android:id="@+id/monitorCpuOfIo"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:gravity="center"
+        android:layout_margin="12dp"
+        android:text="Monitor CPU of IO opertation"
+        android:textAllCaps="false"
+        />
+
+    <Button
+        android:id="@+id/monitorCpuOfGc"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:gravity="center"
+        android:layout_margin="12dp"
+        android:text="Monitor CPU of GC opertation"
+        android:textAllCaps="false"
+        />
+
+</LinearLayout>
