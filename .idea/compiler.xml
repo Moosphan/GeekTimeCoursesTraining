@@ -5,6 +5,7 @@
       <module name="GeekTimeTraining.app" target="11" />
       <module name="GeekTimeTraining.breakpadLib" target="11" />
       <module name="GeekTimeTraining.processTracker" target="11" />
+      <module name="GeekTimeTraining.thread_hook" target="11" />
     </bytecodeTargetLevel>
   </component>
 </project>

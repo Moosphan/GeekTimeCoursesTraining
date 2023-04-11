@@ -12,12 +12,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.dorck.android.breakpad.BreakpadInitializer
+import com.dorck.android.thread.hook.ThreadHooker
 import com.dorck.android.tracker.SimpleProcessTracker
 import java.io.File
 import java.io.FileNotFoundException
 import java.io.FileOutputStream
 import java.io.IOException
 import java.util.*
+import kotlin.concurrent.thread
 
 class MainActivity : AppCompatActivity() {
     private var externalReportPath: File? = null
@@ -74,14 +76,13 @@ class MainActivity : AppCompatActivity() {
             Log.d(TAG, "dump hprof file path: ${dumpFile.absolutePath}")
             Debug.dumpHprofData(dumpFile.absolutePath)
         }
-        // 3. 测试不同场景下的卡顿问题，并采集 CPU&进程&线程相关数据助于分析
+        // 3. 测试不同场景下的卡顿问题，并通过/proc/采集 CPU&进程&线程相关数据助于分析
         findViewById<Button>(R.id.monitorCpuOfIo).setOnClickListener {
             mProcessCpuTracker.update()
             testIO()
             mProcessCpuTracker.update()
             Log.d(TAG, "GC CPU changed => " + mProcessCpuTracker.printCurrentState(SystemClock.uptimeMillis()))
         }
-
         findViewById<Button>(R.id.monitorCpuOfGc).setOnClickListener {
             mProcessCpuTracker.update()
             testGc()
@@ -89,6 +90,20 @@ class MainActivity : AppCompatActivity() {
                 mProcessCpuTracker.update()
                 Log.d(TAG, "IO CPU changed => " + mProcessCpuTracker.printCurrentState(SystemClock.uptimeMillis()))
             }, 5000)
+        }
+        // 4. 测试native hook技术使用（PLTHook）
+        findViewById<Button>(R.id.nativeHook).setOnClickListener {
+            ThreadHooker.hookThreadInfo()
+            testForThreadCreation()
+        }
+    }
+
+    private fun testForThreadCreation() {
+        thread {
+            Log.d(TAG, "start a outer thread, name: ${Thread.currentThread().name}, tid: ${Thread.currentThread().id}")
+            thread {
+                Log.d(TAG, "start a inner thread, name: ${Thread.currentThread().name}, tid: ${Thread.currentThread().id}")
+            }
         }
     }
 
