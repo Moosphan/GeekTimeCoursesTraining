@@ -4,6 +4,9 @@ plugins {
     id 'com.android.library' version '7.2.1' apply false
     id 'org.jetbrains.kotlin.android' version '1.6.10' apply false
 }
+ext {
+    ktxVersion = "1.6.0"
+}
 
 task clean(type: Delete) {
     delete rootProject.buildDir

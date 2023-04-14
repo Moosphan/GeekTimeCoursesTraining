@@ -4,12 +4,13 @@ Android senior engineer courses training.
 
 ## Course Catalog
 
-| 章节     | 课后练习 repo 地址           | 总结&复盘 | 完成时间 |
-| -------- | ---------------------------- | --------- | -------- |
-| Chapter1 | [崩溃优化](./breakpadLib)    |           | 23/03/10 |
-| Chapter2 | [内存优化](./bitmapAnalyzer) |           | 23/03/15 |
-| Chapter3 | [卡顿优化](./processTracker) |           | 23/03/25 |
-|          |                              |           |          |
+| 章节     | 课后练习 repo 地址             | 结果 | 完成时间 |
+| -------- | ------------------------------ | ---- | -------- |
+| Chapter1 | [崩溃优化](./breakpadLib)      | Done | 23/03/10 |
+| Chapter2 | [内存优化](./bitmapAnalyzer)   | Done | 23/03/15 |
+| Chapter3 | [卡顿优化](./processTracker)   | Done | 23/03/25 |
+| Chapter4 | [线程监控](./thread_hook)      | Done | 23/04/10 |
+| Chapter5 | [方法耗时监控](./trace-plugin) | Done | 23/04/14 |
 
 > *PS：此处章节按照优化领域划分，并未与实际课程章节保持一致。*
 
@@ -99,3 +100,17 @@ Android senior engineer courses training.
 
 #### 3. 卡顿优化
 
+- /proc/ 查看 CPU 使用情况、CPU 负载
+- 分析进程中线程使用情况
+- 工具：Systrace、profiler、perfetto、simplePref
+- 解决思路：
+  - 根据现场 Thread 状态分析 Java 源码，然后打印所有线程堆栈信息（需要考虑版本兼容问题，部分版本无法通过 Thread.getAllStackTraces 拿到主线程堆栈信息）
+  - 模拟生成 ANR 日志，由于其信息比较全面，可以通过模拟发送 SIGQUIT 信号实现，然后分析线程状态、CPU 占用、锁状态等等
+  - 很多高版本系统已经没有权限读取 /data/anr/traces.txt 文件，并且获取所有线程堆栈比较耗时，我们可以通过 fork 子进程方式实现，这样即使子进程崩溃了也不会影响我们主进程的运行：
+  - 通过 libart.so、dlsym 调用 ThreadList::ForEach 方法，拿到所有的 Native 线程对象
+  - 遍历线程对象列表，调用 Thread::DumpState 方法
+  - 尽可能增加现场信息，如进程 CPU 使用率、GC 相关的信息，可以方便我们进一步还原卡顿现场：
+    - CPU 使用率和调度信息。
+    - 内存相关信息。我们可以添加系统总内存、可用内存以及应用各个进程的内存等信息。
+    - 如果开启了 Debug.startAllocCounting 或者 atrace，还可以增加 GC 相关的信息。
+    - I/O 和网络相关。我们还可以把卡顿期间所有的 I/O 和网络操作的详细信息也一并收集。

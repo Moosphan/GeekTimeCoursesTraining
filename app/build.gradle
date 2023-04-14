@@ -1,6 +1,13 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'cn.dorck.trace.plugin'
+}
+
+trace {
+    traceEnable true
+    supportIncremental false
+    whiteListFile "${project.projectDir}/whitelist/whitelist.json"
 }
 
 android {
@@ -47,7 +54,7 @@ android {
 
 dependencies {
 
-    implementation 'androidx.core:core-ktx:1.7.0'
+    implementation "androidx.core:core-ktx:${rootProject.ext.ktxVersion}"
     implementation 'androidx.appcompat:appcompat:1.5.1'
     implementation 'com.google.android.material:material:1.6.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
@@ -58,4 +65,5 @@ dependencies {
     implementation project(":breakpadLib")
     implementation project(":processTracker")
     implementation project(":thread_hook")
+    implementation 'com.dorck.android:trace-plugin:0.1.0-LOCAL'
 }

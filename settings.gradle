@@ -1,15 +1,26 @@
+import org.gradle.api.initialization.resolve.RepositoriesMode
+
 pluginManagement {
     repositories {
         gradlePluginPortal()
         google()
         mavenCentral()
+        mavenLocal()
+    }
+    resolutionStrategy {
+        eachPlugin {
+            if (requested.id.id == 'cn.dorck.trace.plugin') {
+                useModule("com.dorck.android:trace-plugin:0.1.0-LOCAL")
+            }
+        }
     }
 }
 dependencyResolutionManagement {
-    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositoriesMode.set(RepositoriesMode.PREFER_SETTINGS)
     repositories {
         google()
         mavenCentral()
+        mavenLocal()
     }
 }
 rootProject.name = "GeekTimeTraining"
@@ -18,3 +29,5 @@ include ':breakpadLib'      // breakpad抓取和解析native日志实战
 include ':bitmapAnalyzer'   // 根据dump的hprof内存信息分析是否存在重复bitmap
 include ':processTracker'   // 简单的APM工具(抓取CPU和进程相关信息并输出)
 include ':thread_hook'      // 用于从native层hook线程的创建，方便获取和分析线程信息
+include ':method-trace'
+include ':trace-plugin'

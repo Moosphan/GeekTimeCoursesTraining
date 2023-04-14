@@ -95,6 +95,8 @@ class MainActivity : AppCompatActivity() {
         findViewById<Button>(R.id.nativeHook).setOnClickListener {
             ThreadHooker.hookThreadInfo()
             testForThreadCreation()
+            // TODO delete
+            doSomeThing()
         }
     }
 
@@ -105,6 +107,11 @@ class MainActivity : AppCompatActivity() {
                 Log.d(TAG, "start a inner thread, name: ${Thread.currentThread().name}, tid: ${Thread.currentThread().id}")
             }
         }
+    }
+
+    private fun doSomeThing() {
+        Log.d(TAG, "do something")
+        Thread.sleep(300)
     }
 
     /**

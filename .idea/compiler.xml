@@ -4,8 +4,12 @@
     <bytecodeTargetLevel target="1.7">
       <module name="GeekTimeTraining.app" target="11" />
       <module name="GeekTimeTraining.breakpadLib" target="11" />
+      <module name="GeekTimeTraining.method-trace" target="11" />
       <module name="GeekTimeTraining.processTracker" target="11" />
       <module name="GeekTimeTraining.thread_hook" target="11" />
+      <module name="GeekTimeTraining.trace-plugin" target="11" />
+      <module name="GeekTimeTraining.trace-plugin.main" target="11" />
+      <module name="GeekTimeTraining.trace-plugin.test" target="11" />
     </bytecodeTargetLevel>
   </component>
 </project>
